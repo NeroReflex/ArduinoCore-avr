@@ -62,11 +62,11 @@ int main(void)
 TickType_t xLastWakeTime_SerialEvents;
 
 void SerialEvents(void *pvParameters __attribute__((unused))) {
-  xLastWakeTime_Debug = xTaskGetTickCount();
+  xLastWakeTime_SerialEvents = xTaskGetTickCount();
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime_Debug, pdMSTOTICKS( 25 ));
+    vTaskDelayUntil(&xLastWakeTime_SerialEvents, pdMSTOTICKS( 25 ));
 
     if (serialEventRun) serialEventRun();
   }
