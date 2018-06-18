@@ -20,6 +20,8 @@
   Boston, MA  02111-1307  USA
 */
 
+#include "Arduino_FreeRTOS.h"
+
 #include "wiring_private.h"
 
 // the prescaler is set so that timer0 ticks every 64 clock cycles, and the
@@ -105,15 +107,7 @@ unsigned long micros() {
 
 void delay(unsigned long ms)
 {
-	uint32_t start = micros();
-
-	while (ms > 0) {
-		yield();
-		while ( ms > 0 && (micros() - start) >= 1000) {
-			ms--;
-			start += 1000;
-		}
-	}
+	vTaskDelay(pdMSTOTICKS( ms ));
 }
 
 /* Delay for the given number of microseconds.  Assumes a 1, 8, 12, 16, 20 or 24 MHz clock. */
