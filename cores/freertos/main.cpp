@@ -30,6 +30,10 @@ void initVariant() { }
 void setupUSB() __attribute__((weak));
 void setupUSB() { }
 
+aDefineStaticTask(Serial, (15 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
+
+void SerialEvents(void *pvParameters);
+
 int main(void)
 {
 	init();
@@ -41,12 +45,21 @@ int main(void)
 #endif
 	
 	setup();
-    
-	for (;;) {
-		loop();
-		if (serialEventRun) serialEventRun();
-	}
-        
+  
+  // Create a task used specifically for serial stuff with MINIMAL priority
+  aCreateTask(Serial, SerialEvents, NULL, (configMAX_PRIORITIES - 3));
+
+  // Start the real time scheduler.
+  vTaskStartScheduler();
+
+  // Probably we've failed trying to initialise heap for the scheduler. Let someone know.
+  vApplicationMallocFailedHook();
+  
+  // Hope this will never happen :)
 	return 0;
+}
+
+void SerialEvents(void *pvParameters __attribute__((unused))) {
+  if (serialEventRun) serialEventRun();
 }
 

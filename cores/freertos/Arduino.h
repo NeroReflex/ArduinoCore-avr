@@ -29,6 +29,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "ArduinoRTOS.hpp"
+
 #include "binary.h"
 
 #ifdef __cplusplus

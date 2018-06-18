@@ -4,7 +4,7 @@ menu.cpu=Processor
 
 ##############################################################
 
-yun.name=Arduino Yún
+yun.name=FreeRTOS Shield Yún
 yun.upload.via_ssh=true
 
 yun.vid.0=0x2341
@@ -38,15 +38,15 @@ yun.build.mcu=atmega32u4
 yun.build.f_cpu=16000000L
 yun.build.vid=0x2341
 yun.build.pid=0x8041
-yun.build.usb_product="Arduino Yun"
+yun.build.usb_product="FreeRTOS Shield Yun"
 yun.build.board=AVR_YUN
-yun.build.core=arduino
+yun.build.core=freertos
 yun.build.variant=yun
 yun.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-uno.name=Arduino/Genuino Uno
+uno.name=FreeRTOS Shield Uno
 
 uno.vid.0=0x2341
 uno.pid.0=0x0043
@@ -74,12 +74,12 @@ uno.bootloader.file=optiboot/optiboot_atmega328.hex
 uno.build.mcu=atmega328p
 uno.build.f_cpu=16000000L
 uno.build.board=AVR_UNO
-uno.build.core=arduino
+uno.build.core=freertos
 uno.build.variant=standard
 
 ##############################################################
 
-diecimila.name=Arduino Duemilanove or Diecimila
+diecimila.name=FreeRTOS Shield Duemilanove or Diecimila
 
 diecimila.upload.tool=avrdude
 diecimila.upload.protocol=arduino
@@ -91,10 +91,10 @@ diecimila.bootloader.lock_bits=0x0F
 
 diecimila.build.f_cpu=16000000L
 diecimila.build.board=AVR_DUEMILANOVE
-diecimila.build.core=arduino
+diecimila.build.core=freertos
 diecimila.build.variant=standard
 
-## Arduino Duemilanove or Diecimila w/ ATmega328P
+## FreeRTOS Shield Duemilanove or Diecimila w/ ATmega328P
 ## ----------------------------------------------
 diecimila.menu.cpu.atmega328=ATmega328P
 
@@ -108,7 +108,7 @@ diecimila.menu.cpu.atmega328.bootloader.file=atmega/ATmegaBOOT_168_atmega328.hex
 
 diecimila.menu.cpu.atmega328.build.mcu=atmega328p
 
-## Arduino Duemilanove or Diecimila w/ ATmega168
+## FreeRTOS Shield Duemilanove or Diecimila w/ ATmega168
 ## ---------------------------------------------
 diecimila.menu.cpu.atmega168=ATmega168
 
@@ -124,7 +124,7 @@ diecimila.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-nano.name=Arduino Nano
+nano.name=FreeRTOS Shield Nano
 
 nano.upload.tool=avrdude
 nano.upload.protocol=arduino
@@ -135,10 +135,10 @@ nano.bootloader.lock_bits=0x0F
 
 nano.build.f_cpu=16000000L
 nano.build.board=AVR_NANO
-nano.build.core=arduino
+nano.build.core=freertos
 nano.build.variant=eightanaloginputs
 
-## Arduino Nano w/ ATmega328P
+## FreeRTOS Shield Nano w/ ATmega328P
 ## --------------------------
 nano.menu.cpu.atmega328=ATmega328P
 
@@ -153,7 +153,7 @@ nano.menu.cpu.atmega328.bootloader.file=optiboot/optiboot_atmega328.hex
 
 nano.menu.cpu.atmega328.build.mcu=atmega328p
 
-## Arduino Nano w/ ATmega328P (old bootloader)
+## FreeRTOS Shield Nano w/ ATmega328P (old bootloader)
 ## --------------------------
 nano.menu.cpu.atmega328old=ATmega328P (Old Bootloader)
 
@@ -168,7 +168,7 @@ nano.menu.cpu.atmega328old.bootloader.file=atmega/ATmegaBOOT_168_atmega328.hex
 
 nano.menu.cpu.atmega328old.build.mcu=atmega328p
 
-## Arduino Nano w/ ATmega168
+## FreeRTOS Shield Nano w/ ATmega168
 ## -------------------------
 nano.menu.cpu.atmega168=ATmega168
 
@@ -185,7 +185,7 @@ nano.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-mega.name=Arduino/Genuino Mega or Mega 2560
+mega.name=FreeRTOS Shield Mega or Mega 2560
 
 mega.vid.0=0x2341
 mega.pid.0=0x0010
@@ -209,12 +209,12 @@ mega.bootloader.unlock_bits=0x3F
 mega.bootloader.lock_bits=0x0F
 
 mega.build.f_cpu=16000000L
-mega.build.core=arduino
+mega.build.core=freertos
 mega.build.variant=mega
 # default board may be overridden by the cpu menu
 mega.build.board=AVR_MEGA2560
 
-## Arduino/Genuino Mega w/ ATmega2560
+## FreeRTOS Shield Mega w/ ATmega2560
 ## -------------------------
 mega.menu.cpu.atmega2560=ATmega2560 (Mega 2560)
 
@@ -229,7 +229,7 @@ mega.menu.cpu.atmega2560.bootloader.file=stk500v2/stk500boot_v2_mega2560.hex
 mega.menu.cpu.atmega2560.build.mcu=atmega2560
 mega.menu.cpu.atmega2560.build.board=AVR_MEGA2560
 
-## Arduino Mega w/ ATmega1280
+## FreeRTOS Shield Mega w/ ATmega1280
 ## -------------------------
 mega.menu.cpu.atmega1280=ATmega1280
 
@@ -246,7 +246,7 @@ mega.menu.cpu.atmega1280.build.board=AVR_MEGA
 
 ##############################################################
 
-megaADK.name=Arduino Mega ADK
+megaADK.name=FreeRTOS Shield Mega ADK
 
 megaADK.vid.0=0x2341
 megaADK.pid.0=0x003f
@@ -274,12 +274,12 @@ megaADK.bootloader.lock_bits=0x0F
 megaADK.build.mcu=atmega2560
 megaADK.build.f_cpu=16000000L
 megaADK.build.board=AVR_ADK
-megaADK.build.core=arduino
+megaADK.build.core=freertos
 megaADK.build.variant=mega
 
 ##############################################################
 
-leonardo.name=Arduino Leonardo
+leonardo.name=FreeRTOS Shield Leonardo
 leonardo.vid.0=0x2341
 leonardo.pid.0=0x0036
 leonardo.vid.1=0x2341
@@ -310,15 +310,15 @@ leonardo.build.mcu=atmega32u4
 leonardo.build.f_cpu=16000000L
 leonardo.build.vid=0x2341
 leonardo.build.pid=0x8036
-leonardo.build.usb_product="Arduino Leonardo"
+leonardo.build.usb_product="FreeRTOS Shield Leonardo"
 leonardo.build.board=AVR_LEONARDO
-leonardo.build.core=arduino
+leonardo.build.core=freertos
 leonardo.build.variant=leonardo
 leonardo.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-leonardoeth.name=Arduino Leonardo ETH
+leonardoeth.name=FreeRTOS Shield Leonardo ETH
 leonardoeth.vid.0=0x2a03
 leonardoeth.pid.0=0x0040
 leonardoeth.vid.1=0x2a03
@@ -345,15 +345,15 @@ leonardoeth.build.mcu=atmega32u4
 leonardoeth.build.f_cpu=16000000L
 leonardoeth.build.vid=0x2a03
 leonardoeth.build.pid=0x8040
-leonardoeth.build.usb_product="Arduino Leonardo ETH"
+leonardoeth.build.usb_product="FreeRTOS Shield Leonardo ETH"
 leonardoeth.build.board=AVR_LEONARDO_ETH
-leonardoeth.build.core=arduino
+leonardoeth.build.core=freertos
 leonardoeth.build.variant=leonardo
 leonardoeth.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-micro.name=Arduino/Genuino Micro
+micro.name=FreeRTOS Shield Micro
 
 micro.vid.0=0x2341
 micro.pid.0=0x0037
@@ -403,15 +403,15 @@ micro.build.mcu=atmega32u4
 micro.build.f_cpu=16000000L
 micro.build.vid=0x2341
 micro.build.pid=0x8037
-micro.build.usb_product="Arduino Micro"
+micro.build.usb_product="FreeRTOS Shield Micro"
 micro.build.board=AVR_MICRO
-micro.build.core=arduino
+micro.build.core=freertos
 micro.build.variant=micro
 micro.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-esplora.name=Arduino Esplora
+esplora.name=FreeRTOS Shield Esplora
 esplora.vid.0=0x2341
 esplora.pid.0=0x003C
 esplora.vid.1=0x2341
@@ -442,15 +442,15 @@ esplora.build.mcu=atmega32u4
 esplora.build.f_cpu=16000000L
 esplora.build.vid=0x2341
 esplora.build.pid=0x803c
-esplora.build.usb_product="Arduino Esplora"
+esplora.build.usb_product="FreeRTOS Shield Esplora"
 esplora.build.board=AVR_ESPLORA
-esplora.build.core=arduino
+esplora.build.core=freertos
 esplora.build.variant=leonardo
 esplora.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-mini.name=Arduino Mini
+mini.name=FreeRTOS Shield Mini
 
 mini.upload.tool=avrdude
 mini.upload.protocol=arduino
@@ -462,10 +462,10 @@ mini.bootloader.lock_bits=0x0F
 
 mini.build.f_cpu=16000000L
 mini.build.board=AVR_MINI
-mini.build.core=arduino
+mini.build.core=freertos
 mini.build.variant=eightanaloginputs
 
-## Arduino Mini w/ ATmega328P
+## FreeRTOS Shield Mini w/ ATmega328P
 ## --------------------------
 mini.menu.cpu.atmega328=ATmega328P
 
@@ -479,7 +479,7 @@ mini.menu.cpu.atmega328.bootloader.file=optiboot/optiboot_atmega328-Mini.hex
 
 mini.menu.cpu.atmega328.build.mcu=atmega328p
 
-## Arduino Mini w/ ATmega168
+## FreeRTOS Shield Mini w/ ATmega168
 ## -------------------------
 mini.menu.cpu.atmega168=ATmega168
 
@@ -495,7 +495,7 @@ mini.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-ethernet.name=Arduino Ethernet
+ethernet.name=FreeRTOS Shield Ethernet
 
 ethernet.upload.tool=avrdude
 ethernet.upload.protocol=arduino
@@ -515,11 +515,11 @@ ethernet.build.variant=ethernet
 ethernet.build.mcu=atmega328p
 ethernet.build.f_cpu=16000000L
 ethernet.build.board=AVR_ETHERNET
-ethernet.build.core=arduino
+ethernet.build.core=freertos
 
 ##############################################################
 
-fio.name=Arduino Fio
+fio.name=FreeRTOS Shield Fio
 
 fio.upload.tool=avrdude
 fio.upload.protocol=arduino
@@ -538,12 +538,12 @@ fio.bootloader.lock_bits=0x0F
 fio.build.mcu=atmega328p
 fio.build.f_cpu=8000000L
 fio.build.board=AVR_FIO
-fio.build.core=arduino
+fio.build.core=freertos
 fio.build.variant=eightanaloginputs
 
 ##############################################################
 
-bt.name=Arduino BT
+bt.name=FreeRTOS Shield BT
 
 bt.upload.tool=avrdude
 bt.upload.protocol=arduino
@@ -557,10 +557,10 @@ bt.bootloader.lock_bits=0x0F
 
 bt.build.f_cpu=16000000L
 bt.build.board=AVR_BT
-bt.build.core=arduino
+bt.build.core=freertos
 bt.build.variant=eightanaloginputs
 
-## Arduino BT w/ ATmega328P
+## FreeRTOS Shield BT w/ ATmega328P
 ## ------------------------
 bt.menu.cpu.atmega328=ATmega328P
 bt.menu.cpu.atmega328.upload.maximum_size=28672
@@ -572,7 +572,7 @@ bt.menu.cpu.atmega328.bootloader.file=bt/ATmegaBOOT_168_atmega328_bt.hex
 
 bt.menu.cpu.atmega328.build.mcu=atmega328p
 
-## Arduino BT w/ ATmega168
+## FreeRTOS Shield BT w/ ATmega168
 ## -----------------------
 bt.menu.cpu.atmega168=ATmega168
 bt.menu.cpu.atmega168.upload.maximum_size=14336
@@ -586,7 +586,7 @@ bt.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-LilyPadUSB.name=LilyPad Arduino USB
+LilyPadUSB.name=LilyPad FreeRTOS Shield USB
 LilyPadUSB.vid.0=0x1B4F
 LilyPadUSB.pid.0=0x9207
 LilyPadUSB.vid.1=0x1B4F
@@ -615,13 +615,13 @@ LilyPadUSB.build.vid=0x1B4F
 LilyPadUSB.build.pid=0x9208
 LilyPadUSB.build.usb_product="LilyPad USB"
 LilyPadUSB.build.board=AVR_LILYPAD_USB
-LilyPadUSB.build.core=arduino
+LilyPadUSB.build.core=freertos
 LilyPadUSB.build.variant=leonardo
 LilyPadUSB.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-lilypad.name=LilyPad Arduino
+lilypad.name=LilyPad FreeRTOS Shield
 
 lilypad.upload.tool=avrdude
 lilypad.upload.protocol=arduino
@@ -632,10 +632,10 @@ lilypad.bootloader.lock_bits=0x0F
 
 lilypad.build.f_cpu=8000000L
 lilypad.build.board=AVR_LILYPAD
-lilypad.build.core=arduino
+lilypad.build.core=freertos
 lilypad.build.variant=standard
 
-## LilyPad Arduino w/ ATmega328P
+## LilyPad FreeRTOS Shield w/ ATmega328P
 ## -----------------------------
 lilypad.menu.cpu.atmega328=ATmega328P
 
@@ -650,7 +650,7 @@ lilypad.menu.cpu.atmega328.bootloader.file=atmega/ATmegaBOOT_168_atmega328_pro_8
 
 lilypad.menu.cpu.atmega328.build.mcu=atmega328p
 
-## LilyPad Arduino w/ ATmega168
+## LilyPad FreeRTOS Shield w/ ATmega168
 ## ----------------------------
 lilypad.menu.cpu.atmega168=ATmega168
 
@@ -667,7 +667,7 @@ lilypad.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-pro.name=Arduino Pro or Pro Mini
+pro.name=FreeRTOS Shield Pro or Pro Mini
 
 pro.upload.tool=avrdude
 pro.upload.protocol=arduino
@@ -677,10 +677,10 @@ pro.bootloader.unlock_bits=0x3F
 pro.bootloader.lock_bits=0x0F
 
 pro.build.board=AVR_PRO
-pro.build.core=arduino
+pro.build.core=freertos
 pro.build.variant=eightanaloginputs
 
-## Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega328P
+## FreeRTOS Shield Pro or Pro Mini (5V, 16 MHz) w/ ATmega328P
 ## --------------------------------------------------
 pro.menu.cpu.16MHzatmega328=ATmega328P (5V, 16 MHz)
 
@@ -696,7 +696,7 @@ pro.menu.cpu.16MHzatmega328.bootloader.file=atmega/ATmegaBOOT_168_atmega328.hex
 pro.menu.cpu.16MHzatmega328.build.mcu=atmega328p
 pro.menu.cpu.16MHzatmega328.build.f_cpu=16000000L
 
-## Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega328P
+## FreeRTOS Shield Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega328P
 ## ---------------------------------------------------
 pro.menu.cpu.8MHzatmega328=ATmega328P (3.3V, 8 MHz)
 
@@ -712,7 +712,7 @@ pro.menu.cpu.8MHzatmega328.bootloader.file=atmega/ATmegaBOOT_168_atmega328_pro_8
 pro.menu.cpu.8MHzatmega328.build.mcu=atmega328p
 pro.menu.cpu.8MHzatmega328.build.f_cpu=8000000L
 
-## Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega168
+## FreeRTOS Shield Pro or Pro Mini (5V, 16 MHz) w/ ATmega168
 ## -------------------------------------------------
 pro.menu.cpu.16MHzatmega168=ATmega168 (5V, 16 MHz)
 
@@ -728,7 +728,7 @@ pro.menu.cpu.16MHzatmega168.bootloader.file=atmega/ATmegaBOOT_168_diecimila.hex
 pro.menu.cpu.16MHzatmega168.build.mcu=atmega168
 pro.menu.cpu.16MHzatmega168.build.f_cpu=16000000L
 
-## Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega168
+## FreeRTOS Shield Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega168
 ## --------------------------------------------------
 pro.menu.cpu.8MHzatmega168=ATmega168 (3.3V, 8 MHz)
 
@@ -746,7 +746,7 @@ pro.menu.cpu.8MHzatmega168.build.f_cpu=8000000L
 
 ##############################################################
 
-atmegang.name=Arduino NG or older
+atmegang.name=FreeRTOS Shield NG or older
 
 atmegang.upload.tool=avrdude
 atmegang.upload.protocol=arduino
@@ -759,10 +759,10 @@ atmegang.bootloader.lock_bits=0x0F
 atmegang.build.mcu=atmegang
 atmegang.build.f_cpu=16000000L
 atmegang.build.board=AVR_NG
-atmegang.build.core=arduino
+atmegang.build.core=freertos
 atmegang.build.variant=standard
 
-## Arduino NG or older w/ ATmega168
+## FreeRTOS Shield NG or older w/ ATmega168
 ## --------------------------------
 atmegang.menu.cpu.atmega168=ATmega168
 
@@ -776,7 +776,7 @@ atmegang.menu.cpu.atmega168.bootloader.file=atmega/ATmegaBOOT_168_ng.hex
 
 atmegang.menu.cpu.atmega168.build.mcu=atmega168
 
-## Arduino NG or older w/ ATmega8
+## FreeRTOS Shield NG or older w/ ATmega8
 ## ------------------------------
 atmegang.menu.cpu.atmega8=ATmega8
 
@@ -792,7 +792,7 @@ atmegang.menu.cpu.atmega8.build.mcu=atmega8
 
 ##############################################################
 
-robotControl.name=Arduino Robot Control
+robotControl.name=FreeRTOS Shield Robot Control
 robotControl.vid.0=0x2341
 robotControl.pid.0=0x0038
 robotControl.vid.1=0x2341
@@ -815,7 +815,7 @@ robotControl.bootloader.tool=avrdude
 robotControl.bootloader.low_fuses=0xff
 robotControl.bootloader.high_fuses=0xd8
 robotControl.bootloader.extended_fuses=0xcb
-robotControl.bootloader.file=caterina-Arduino_Robot/Caterina-Robot-Control.hex
+robotControl.bootloader.file=caterina-FreeRTOS Shield_Robot/Caterina-Robot-Control.hex
 robotControl.bootloader.unlock_bits=0x3F
 robotControl.bootloader.lock_bits=0x2F
 
@@ -825,13 +825,13 @@ robotControl.build.vid=0x2341
 robotControl.build.pid=0x8038
 robotControl.build.usb_product="Robot Control"
 robotControl.build.board=AVR_ROBOT_CONTROL
-robotControl.build.core=arduino
+robotControl.build.core=freertos
 robotControl.build.variant=robot_control
 robotControl.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-robotMotor.name=Arduino Robot Motor
+robotMotor.name=FreeRTOS Shield Robot Motor
 robotMotor.vid.0=0x2341
 robotMotor.pid.0=0x0039
 robotMotor.vid.1=0x2341
@@ -854,7 +854,7 @@ robotMotor.bootloader.tool=avrdude
 robotMotor.bootloader.low_fuses=0xff
 robotMotor.bootloader.high_fuses=0xd8
 robotMotor.bootloader.extended_fuses=0xcb
-robotMotor.bootloader.file=caterina-Arduino_Robot/Caterina-Robot-Motor.hex
+robotMotor.bootloader.file=caterina-FreeRTOS Shield_Robot/Caterina-Robot-Motor.hex
 robotMotor.bootloader.unlock_bits=0x3F
 robotMotor.bootloader.lock_bits=0x2F
 
@@ -864,7 +864,7 @@ robotMotor.build.vid=0x2341
 robotMotor.build.pid=0x8039
 robotMotor.build.usb_product="Robot Motor"
 robotMotor.build.board=AVR_ROBOT_MOTOR
-robotMotor.build.core=arduino
+robotMotor.build.core=freertos
 robotMotor.build.variant=robot_motor
 robotMotor.build.extra_flags={build.usb_flags}
 
@@ -873,7 +873,7 @@ robotMotor.build.extra_flags={build.usb_flags}
 gemma.vid.0=0x2341
 gemma.pid.0=0x0c9f
 
-gemma.name=Arduino Gemma
+gemma.name=FreeRTOS Shield Gemma
 
 gemma.bootloader.low_fuses=0xF1
 gemma.bootloader.high_fuses=0xD5
@@ -885,7 +885,7 @@ gemma.bootloader.file=gemma/gemma_v1.hex
 
 gemma.build.mcu=attiny85
 gemma.build.f_cpu=8000000L
-gemma.build.core=arduino
+gemma.build.core=freertos
 gemma.build.variant=gemma
 gemma.build.board=AVR_GEMMA
 
@@ -907,7 +907,7 @@ circuitplay32u4cat.build.mcu=atmega32u4
 circuitplay32u4cat.build.f_cpu=8000000L
 circuitplay32u4cat.build.vid=0x239A
 circuitplay32u4cat.build.pid=0x8011
-circuitplay32u4cat.build.core=arduino
+circuitplay32u4cat.build.core=freertos
 circuitplay32u4cat.build.variant=circuitplay32u4
 circuitplay32u4cat.build.board=AVR_CIRCUITPLAY
 circuitplay32u4cat.build.usb_product="Circuit Playground"
@@ -925,7 +925,7 @@ circuitplay32u4cat.pid.0=0x8011
 
 ##############################################################
 
-yunmini.name=Arduino Yún Mini
+yunmini.name=FreeRTOS Shield Yún Mini
 yunmini.upload.via_ssh=true
 
 yunmini.vid.0=0x2a03
@@ -954,15 +954,15 @@ yunmini.build.mcu=atmega32u4
 yunmini.build.f_cpu=16000000L
 yunmini.build.vid=0x2a03
 yunmini.build.pid=0x8050
-yunmini.build.usb_product="Arduino Yún Mini"
+yunmini.build.usb_product="FreeRTOS Shield Yún Mini"
 yunmini.build.board=AVR_YUNMINI
-yunmini.build.core=arduino
+yunmini.build.core=freertos
 yunmini.build.variant=yun
 yunmini.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-chiwawa.name=Arduino Industrial 101
+chiwawa.name=FreeRTOS Shield Industrial 101
 chiwawa.upload.via_ssh=true
 
 chiwawa.vid.0=0x2a03
@@ -991,9 +991,9 @@ chiwawa.build.mcu=atmega32u4
 chiwawa.build.f_cpu=16000000L
 chiwawa.build.vid=0x2a03
 chiwawa.build.pid=0x8056
-chiwawa.build.usb_product="Arduino Industrial 101"
+chiwawa.build.usb_product="FreeRTOS Shield Industrial 101"
 chiwawa.build.board=AVR_INDUSTRIAL101
-chiwawa.build.core=arduino
+chiwawa.build.core=freertos
 chiwawa.build.variant=yun
 chiwawa.build.extra_flags={build.usb_flags}
 
@@ -1030,13 +1030,13 @@ one.build.vid=0x2a03
 one.build.pid=0x8001
 one.build.usb_product="Linino One"
 one.build.board=AVR_LININO_ONE
-one.build.core=arduino
+one.build.core=freertos
 one.build.variant=yun
 one.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-unowifi.name=Arduino Uno WiFi
+unowifi.name=FreeRTOS Shield Uno WiFi
 unowifi.vid.0=0x2A03
 unowifi.pid.0=0x0057
 
@@ -1062,7 +1062,7 @@ unowifi.bootloader.file=optiboot/optiboot_atmega328.hex
 unowifi.build.mcu=atmega328p
 unowifi.build.f_cpu=16000000L
 unowifi.build.board=AVR_UNO_WIFI_DEV_ED
-unowifi.build.core=arduino
+unowifi.build.core=freertos
 unowifi.build.variant=standard
 unowifi.build.esp_ch_uart_br=19200
 unowifi.build.extra_flags=-DESP_CH_UART -DESP_CH_UART_BR={build.esp_ch_uart_br}
