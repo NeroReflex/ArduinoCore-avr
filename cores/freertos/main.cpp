@@ -31,8 +31,10 @@ void setupUSB() __attribute__((weak));
 void setupUSB() { }
 
 aDefineStaticTask(Serial, (15 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
+aDefineStaticTask(Main, (15 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
 
 void SerialEvents(void *pvParameters);
+void MainLoop(void *pvParameters);
 
 int main(void)
 {
@@ -49,6 +51,9 @@ int main(void)
   // Create a task used specifically for serial stuff with MINIMAL priority
   aCreateTask(Serial, SerialEvents, NULL, (configMAX_PRIORITIES - 3));
 
+  // Create the default task with middle priority to retain sketch compatibility
+  aCreateTask(Main, MainLoop, NULL, (configMAX_PRIORITIES - 2));
+
   // Start the real time scheduler.
   vTaskStartScheduler();
 
@@ -59,14 +64,26 @@ int main(void)
 	return 0;
 }
 
-TickType_t xLastWakeTime_SerialEvents;
 
-void SerialEvents(void *pvParameters __attribute__((unused))) {
-  xLastWakeTime_SerialEvents = xTaskGetTickCount();
+
+void MainLoop(void *pvParameters __attribute__((unused))) {
+  TickType_t xLastWakeTime = xTaskGetTickCount();
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime_SerialEvents, pdMSTOTICKS( 25 ));
+    vTaskDelayUntil(&xLastWakeTime, pdMSTOTICKS( 50 ));
+
+    loop();
+  }
+}
+
+
+void SerialEvents(void *pvParameters __attribute__((unused))) {
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+
+  for (;;) {
+    // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
+    vTaskDelayUntil(&xLastWakeTime, pdMSTOTICKS( 25 ));
 
     if (serialEventRun) serialEventRun();
   }
