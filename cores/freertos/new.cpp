@@ -19,18 +19,50 @@
 #include <stdlib.h>
 
 void *operator new(size_t size) {
+#if (( configSUPPORT_DYNAMIC_ALLOCATION > 0 ) && ( INCLUDE_xTaskGetSchedulerState == 1 ))
+  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+		return pvPortMalloc(size);
+	} else {
+		return malloc(size);
+	}
+#else
   return malloc(size);
+#endif
 }
 
 void *operator new[](size_t size) {
+#if( configSUPPORT_DYNAMIC_ALLOCATION > 0 )
+  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+		return pvPortMalloc(size);
+	} else {
+		return malloc(size);
+	}
+#else
   return malloc(size);
+#endif
 }
 
 void operator delete(void * ptr) {
+#if( configSUPPORT_DYNAMIC_ALLOCATION > 0 )
+  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+		vPortFree(ptr);
+	} else {
+		free(ptr);
+	}
+#else
   free(ptr);
+#endif
 }
 
 void operator delete[](void * ptr) {
+#if( configSUPPORT_DYNAMIC_ALLOCATION > 0 )
+  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+		vPortFree(ptr);
+	} else {
+		free(ptr);
+	}
+#else
   free(ptr);
+#endif
 }
 

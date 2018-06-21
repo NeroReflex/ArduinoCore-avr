@@ -105,9 +105,19 @@ unsigned long micros() {
 	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
 }
 
-void delay(unsigned long ms)
+void delay(const unsigned long& ms)
 {
-	vTaskDelay(pdMSTOTICKS( ms ));
+	if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+		vTaskDelay(pdMSTOTICKS( ms ));
+	} else {
+		uint32_t start = micros();
+
+		if (ms == 0)
+			return;
+
+		while((millis() - start) < ms)
+			sqrt(4700);
+	}
 }
 
 /* Delay for the given number of microseconds.  Assumes a 1, 8, 12, 16, 20 or 24 MHz clock. */
