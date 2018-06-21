@@ -105,7 +105,7 @@ unsigned long micros() {
 	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
 }
 
-void delay(const uint16_t& ms)
+void delay(uint16_t ms)
 {
 	if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
 		vTaskDelay(pdMSTOTICKS( ms ));
