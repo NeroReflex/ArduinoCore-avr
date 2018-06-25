@@ -74,6 +74,14 @@
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
+#if !defined( portUSE_TIMER0 ) && !defined( portUSE_TIMER1 ) && !defined( portUSE_TIMER2 ) && !defined( portUSE_TIMER3 ) && !defined( portUSE_WDT )
+	#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+		#define portUSE_TIMER3 1
+	#else
+		#define portUSE_WDT 1
+	#endif
+#endif
+
 /* Each FreeRTOS port has a unique portmacro.h header file.  Originally a
 pre-processor definition was used to ensure the pre-processor found the correct
 portmacro.h file for the port being used.  That scheme was deprecated in favour
