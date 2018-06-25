@@ -209,12 +209,16 @@ typedef unsigned char UBaseType_t;
 
 #define sleep_reset()                   do { _SLEEP_CONTROL_REG = 0; } while(0) // reset all sleep_mode() configurations.
 
-/* Timing for the scheduler.
- * Watchdog Timer is 128kHz nominal,
- * but 120 kHz at 5V DC and 25 degrees is actually more accurate,
- * from data sheet.
- */
-#define portTICK_PERIOD_MS              ( (TickType_t) _BV( portUSE_WDTO + 4 ) )	// Inaccurately assuming 128 kHz Watchdog Timer.
+#if defined( portUSE_WDT )
+    /* Timing for the scheduler.
+     * Watchdog Timer is 128kHz nominal,
+     * but 120 kHz at 5V DC and 25 degrees is actually more accurate,
+     * from data sheet.
+     */
+    #define portTICK_PERIOD_MS              ( (TickType_t) _BV( portUSE_WDTO + 4 ) )	// Inaccurately assuming 128 kHz Watchdog Timer.
+#else
+    #define portTICK_PERIOD_MS			( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#endif
 
 /*-----------------------------------------------------------*/
 
