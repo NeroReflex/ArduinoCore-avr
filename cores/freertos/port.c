@@ -542,15 +542,11 @@ BaseType_t xPortStartScheduler( void )
 void vPortEndScheduler( void )
 {
 #if defined( portUSE_WDT )
-	wdt_disable();	// disable Watchdog Timer
-#elif defined( portUSE_TIMER0 )
-	// disable Timer0
-#elif defined( portUSE_TIMER1 )
-	// disable Timer1
-#elif defined( portUSE_TIMER2 )
-	// disable Timer2
-#elif defined( portUSE_TIMER3 )
-	// disable Timer3
+	// disable Watchdog Timer
+	wdt_disable();
+#else
+	// disable selected Timer
+	portTIMSK &= ~( portCOMPARE_MATCH_A_INTERRUPT_ENABLE );
 #endif
 }
 /*-----------------------------------------------------------*/
