@@ -541,10 +541,17 @@ BaseType_t xPortStartScheduler( void )
 
 void vPortEndScheduler( void )
 {
-	/* It is unlikely that the AVR port will get stopped.  If required simply
-	disable the tick interrupt here. */
-
+#if defined( portUSE_WDT )
 	wdt_disable();	// disable Watchdog Timer
+#elif defined( portUSE_TIMER0 )
+	// disable Timer0
+#elif defined( portUSE_TIMER1 )
+	// disable Timer1
+#elif defined( portUSE_TIMER2 )
+	// disable Timer2
+#elif defined( portUSE_TIMER3 )
+	// disable Timer3
+#endif
 }
 /*-----------------------------------------------------------*/
 
