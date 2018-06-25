@@ -149,6 +149,12 @@ any details of its type. */
 typedef void TCB_t;
 extern volatile TCB_t * volatile pxCurrentTCB;
 
+/* actual number of ticks per second from the RTC Timer2 32,768Hz, after configuration. */
+static TickType_t portTickRateHz;
+
+/* remaining ticks in each second, decremented to enable the system_tick. */
+static TickType_t ticksRemainingInSec;
+
 /*-----------------------------------------------------------*/
 /*
  * Perform hardware setup to enable ticks from Watchdog Timer.
@@ -572,12 +578,20 @@ void vPortYield( void )
  * difference from vPortYield() is the tick count is incremented as the
  * call comes from the tick ISR.
  */
-void vPortYieldFromTick( void ) __attribute__ ( ( hot, flatten, naked ) );
+void vPortYieldFromTick( void ) __attribute__ ( ( flatten, naked ) );
 void vPortYieldFromTick( void )
 {
 	portSAVE_CONTEXT();
-	
+
+#if !defined( portUSE_WDT )
+	if (--ticksRemainingInSec == 0)
+	{
+		system_tick();
+		ticksRemainingInSec = portTickRateHz;
+	}
+#else
 	sleep_reset();		//	 reset the sleep_mode() faster than sleep_disable();
+#endif
 
 	if( xTaskIncrementTick() != pdFALSE )
 	{
@@ -588,6 +602,7 @@ void vPortYieldFromTick( void )
 
 	__asm__ __volatile__ ( "ret" );
 }
+
 /*-----------------------------------------------------------*/
 
 #if defined( portUSE_WDT ) 
@@ -770,6 +785,13 @@ static void prvSetupTimerInterrupt( void )
 	ISR(portSCHEDULER_ISR) __attribute__ ((hot, flatten));
 	ISR(portSCHEDULER_ISR)
 	{
+#if !defined( portUSE_WDT )
+		if (--ticksRemainingInSec == 0)
+		{
+			system_tick();
+			ticksRemainingInSec = portTickRateHz;
+		}
+#endif
 		xTaskIncrementTick();
 	}
 
