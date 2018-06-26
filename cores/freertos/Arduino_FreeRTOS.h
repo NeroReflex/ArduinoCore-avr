@@ -93,9 +93,6 @@
 /* Application specific configuration options. */
 #include "FreeRTOSConfig.h"
 
-/* Basic helper functions. */
-#include "FreeRTOS_Utils.h"
-
 /* Basic FreeRTOS definitions. */
 #include "projdefs.h"
 
