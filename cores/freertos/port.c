@@ -139,24 +139,14 @@
 /* Hardware constants for WatchDog Timer. */
 	#warning "Watchdog Timer used for scheduler."
 	#define	portSCHEDULER_ISR                       WDT_vect
-	
 #endif
 
-#if !defined( configTICK_RATE_HZ )
-	#error "Tickrate is undefined. Provide a tickrate on FreeRTOS configuration."
-#endif
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
 typedef void TCB_t;
 extern volatile TCB_t * volatile pxCurrentTCB;
-
-/* actual number of ticks per second from the RTC Timer2 32,768Hz, after configuration. */
-static TickType_t portTickRateHz;
-
-/* remaining ticks in each second, decremented to enable the system_tick. */
-static TickType_t ticksRemainingInSec;
 
 /*-----------------------------------------------------------*/
 /*
@@ -532,7 +522,6 @@ uint16_t usAddress;
 
 BaseType_t xPortStartScheduler( void )
 {
-
 	/* Setup the relevant timer hardware to generate the tick. */
 	prvSetupTimerInterrupt();
 
@@ -586,13 +575,7 @@ void vPortYieldFromTick( void )
 {
 	portSAVE_CONTEXT();
 
-#if !defined( portUSE_WDT )
-	if (--ticksRemainingInSec == 0)
-	{
-		system_tick();
-		ticksRemainingInSec = portTickRateHz;
-	}
-#else
+#if defined( portUSE_WDT )
 	sleep_reset();		//	 reset the sleep_mode() faster than sleep_disable();
 #endif
 
@@ -624,47 +607,24 @@ static void prvSetupTimerInterrupt( void )
  */
 static void prvSetupTimerInterrupt( void )
 {
-uint32_t ulCompareMatch;
-#ifdef portOCRH
-uint8_t ucHighByte;
-#endif
-uint8_t ucLowByte;
-
     /* Using 8bit Timer0 or 16bit Timer1 or Timer3 to generate the tick. Correct fuses must be
 	selected for the configCPU_CLOCK_HZ clock.*/
 
     // ulCompareMatch 40,000 = 20,000,000 / 500; 20MHz
     // ulCompareMatch 110,592 = 22,118,400 / 200; 22.1184 MHz
-    ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
-
-    /* We only have 8 or 16 bits so have to scale 64 or 256 to get our required tick rate. */
+    const uint32_t ulCompareMatch = ( configCPU_CLOCK_HZ / (configTICK_RATE_HZ * portCLOCK_PRESCALER ) )  - 1;
+	/* We only have 8 or 16 bits so have to scale 64 or 256 to get our required tick rate. */
     //ulCompareMatch = 625 /= portCLOCK_PRESCALER; 20MHz with 64 prescale
     //ulCompareMatch = 108 /= portCLOCK_PRESCALER; 22.1184 MHz with 1024 prescale
-    ulCompareMatch /= portCLOCK_PRESCALER;
-
-    /* Adjust for correct value. */
-	ulCompareMatch -= ( uint32_t ) 1;
-
-	/* actual port tick rate in Hz, calculated */
-	portTickRateHz = (TickType_t) ((uint32_t) configCPU_CLOCK_HZ / ( portCLOCK_PRESCALER * ulCompareMatch ));
-	/* initialise first second of ticks */
-	ticksRemainingInSec = portTickRateHz;
 
     /* Setup compare match value for compare match A.  Interrupts are disabled
     before this is called so we need not worry here. */
-    ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-
-    //  OCR3AH = ucHighByte;
-    //  OCR3AL = ucLowByte;
+    portOCRL = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xFF );
 
     // the HiByte is only needed, if a 16 Bit counter is being utilized
 #ifdef portOCRH
-    ulCompareMatch >>= 8;
-    ucHighByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t) 0xFF );
-    portOCRH = ucHighByte;
+    portOCRH = ( uint8_t ) ( (ulCompareMatch >> 8) & ( uint32_t) 0xFF );
 #endif
-
-    portOCRL = ucLowByte;
 
 	/* Setup interrupt registers */
 	portTCCRa = 0x00;
@@ -723,11 +683,6 @@ static void prvSetupTimerInterrupt( void )
 		}
 	}
 
-	/* actual port tick rate in Hz, calculated */
-	portTickRateHz = (TickType_t) ((uint32_t) 32768 / usCompareMatch );
-	/* initialise first second of ticks */
-	ticksRemainingInSec = portTickRateHz;
-
 	/* Adjust for correct value. */
 	usCompareMatch -= ( uint16_t ) 1;
 
@@ -785,13 +740,6 @@ static void prvSetupTimerInterrupt( void )
 	ISR(portSCHEDULER_ISR) __attribute__ ((hot, flatten));
 	ISR(portSCHEDULER_ISR)
 	{
-#if !defined( portUSE_WDT )
-		if (--ticksRemainingInSec == 0)
-		{
-			system_tick();
-			ticksRemainingInSec = portTickRateHz;
-		}
-#endif
 		xTaskIncrementTick();
 	}
 

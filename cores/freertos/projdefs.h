@@ -82,7 +82,7 @@ typedef void (*TaskFunction_t)( void * );
 overridden by a macro of the same name defined in FreeRTOSConfig.h in case the
 definition here is not suitable for your application. */
 #ifndef pdMS_TO_TICKS
-	#define pdMS_TO_TICKS( xTimeInMs ) ( ( TickType_t ) ( 1 + ( ( TickType_t ) ( xTimeInMs ) / portTICK_PERIOD_MS ) ) )
+	#define pdMS_TO_TICKS( xTimeInMs ) ( ( TickType_t ) ( ( TickType_t ) ( xTimeInMs ) / ( TickType_t ) portTICK_PERIOD_MS ) )
 #else
     #warning "pdMS_TO_TICKS already defined. Are you sure about it?" 
 #endif

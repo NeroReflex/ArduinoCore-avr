@@ -31,7 +31,7 @@ void setupUSB() __attribute__((weak));
 void setupUSB() { }
 
 aDefineStaticTask(Serial, (15 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
-aDefineStaticTask(Main, (15 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
+aDefineStaticTask(Main, (115 + configMINIMAL_STACK_SIZE)); // smallest tested: +15
 
 void SerialEvents(void *pvParameters);
 void MainLoop(void *pvParameters);
@@ -68,10 +68,11 @@ int main(void)
 
 void MainLoop(void *pvParameters __attribute__((unused))) {
   TickType_t xLastWakeTime = xTaskGetTickCount();
+  const TickType_t execDelay PROGMEM = pdMS_TO_TICKS( 25 );
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS( 50 ));
+    vTaskDelayUntil(&xLastWakeTime, execDelay);
 
     loop();
   }
@@ -80,10 +81,11 @@ void MainLoop(void *pvParameters __attribute__((unused))) {
 
 void SerialEvents(void *pvParameters __attribute__((unused))) {
   TickType_t xLastWakeTime = xTaskGetTickCount();
+  const TickType_t execDelay PROGMEM = pdMS_TO_TICKS( 15 );
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS( 25 ));
+    vTaskDelayUntil(&xLastWakeTime, execDelay);
 
     if (serialEventRun) serialEventRun();
   }
