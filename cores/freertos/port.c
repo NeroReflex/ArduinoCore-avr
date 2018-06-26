@@ -142,6 +142,9 @@
 	
 #endif
 
+#if !defined( configTICK_RATE_HZ )
+	#error "Tick-rate must be defined"
+#endif
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
