@@ -2,8 +2,9 @@
 #define INC_ARDUINO_FREERTOS_UTILS_H
 
     #include "boost/preprocessor.hpp"
+    #include "portmacro.h"
 
-    #define pdMSTOTICKS( xTimeInMs ) ( (xTimeInMs / portTICK_PERIOD_MS) + 1 )
+    #define pdMS_TO_TICKS( xTimeInMs )      ( TickType_t )((( TickType_t )xTimeInMs / ( TickType_t )portTICK_PERIOD_MS) + ((( TickType_t )xTimeInMs % ( TickType_t )portTICK_PERIOD_MS) ? ( TickType_t )1 : ( TickType_t )0))
 
     // -----------------------------------------------------------------------------
     // ----------------------- Static Semaphores -----------------------------------

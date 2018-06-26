@@ -71,7 +71,7 @@ void MainLoop(void *pvParameters __attribute__((unused))) {
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime, pdMSTOTICKS( 50 ));
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS( 50 ));
 
     loop();
   }
@@ -83,7 +83,7 @@ void SerialEvents(void *pvParameters __attribute__((unused))) {
 
   for (;;) {
     // A few seconds delay to call the idle task (it frees memory somehow..... somewhere.....)
-    vTaskDelayUntil(&xLastWakeTime, pdMSTOTICKS( 25 ));
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS( 25 ));
 
     if (serialEventRun) serialEventRun();
   }

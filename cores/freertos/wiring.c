@@ -108,7 +108,7 @@ unsigned long micros() {
 void delay(uint16_t ms)
 {
 	if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
-		vTaskDelay(pdMSTOTICKS( ms ));
+		vTaskDelay(pdMS_TO_TICKS( ms ));
 	} else {
 		uint16_t start = millis();
 
