@@ -86,9 +86,9 @@
 #if defined( portUSE_TIMER0 )
 /* Hardware constants for Timer0. */
 	#warning "Timer0 used for scheduler."
-	#define	TIMER_COMPA_ISR							TIMER0_COMPA_vect
+	#define	portSCHEDULER_ISR						TIMER0_COMPA_vect
     #define portCLEAR_COUNTER_ON_MATCH			    ( ( uint8_t ) (1<<WGM01) )
-	#define portPRESCALE_1024     			        ( ( uint8_t ) ((1<<CS02)|(1<<CS00)) )
+	#define portPRESCALE_BITS     			        ( ( uint8_t ) ((1<<CS02)|(1<<CS00)) )
     #define portCLOCK_PRESCALER				        ( ( uint32_t ) 1024 )
 	#define portCOMPARE_MATCH_A_INTERRUPT_ENABLE	( ( uint8_t ) (1<<OCIE0A) )
     #define portOCRL                                OCR0A
@@ -101,7 +101,7 @@
 	#warning "Timer1 used for scheduler."
 	#define	portSCHEDULER_ISR						TIMER1_COMPA_vect
 	#define portCLEAR_COUNTER_ON_MATCH			    ( ( uint8_t ) (1<<WGM12) )
-	#define portPRESCALE_64				            ( ( uint8_t ) ((1<<CS11)|(1<<CS10)) )
+	#define portPRESCALE_BITS				            ( ( uint8_t ) ((1<<CS11)|(1<<CS10)) )
 	#define portCLOCK_PRESCALER				        ( ( uint32_t ) 64 )
 	#define portCOMPARE_MATCH_A_INTERRUPT_ENABLE	( ( uint8_t ) (1<<OCIE1A) )
 	#define portOCRL                              	OCR1AL
@@ -126,8 +126,8 @@
 	#warning "Timer3 used for scheduler."
 	#define	portSCHEDULER_ISR						TIMER3_COMPA_vect
 	#define portCLEAR_COUNTER_ON_MATCH			    ( ( uint8_t ) (1<<WGM32) )
-	#define portPRESCALE_64				            ( ( uint8_t ) ((1<<CS31)|(1<<CS30)) )
-	#define portCLOCK_PRESCALER				        ( ( uint32_t ) 64 )
+	#define portPRESCALE_BITS				        ( ( uint8_t ) (1<<CS32) )
+	#define portCLOCK_PRESCALER				        ( ( uint32_t ) 256 )
 	#define portCOMPARE_MATCH_A_INTERRUPT_ENABLE	( ( uint8_t ) (1<<OCIE3A) )
 	#define portOCRL                              	OCR3AL
 	#define portOCRH                                OCR3AH
@@ -143,7 +143,7 @@
 #endif
 
 #if !defined( configTICK_RATE_HZ )
-	#error "Tick-rate must be defined"
+	#error "Tickrate is undefined. Provide a tickrate on FreeRTOS configuration."
 #endif
 /*-----------------------------------------------------------*/
 
@@ -642,13 +642,13 @@ uint8_t ucLowByte;
     //ulCompareMatch = 108 /= portCLOCK_PRESCALER; 22.1184 MHz with 1024 prescale
     ulCompareMatch /= portCLOCK_PRESCALER;
 
- 	/* actual port tick rate in Hz, calculated */
+    /* Adjust for correct value. */
+	ulCompareMatch -= ( uint32_t ) 1;
+
+	/* actual port tick rate in Hz, calculated */
 	portTickRateHz = (TickType_t) ((uint32_t) configCPU_CLOCK_HZ / ( portCLOCK_PRESCALER * ulCompareMatch ));
 	/* initialise first second of ticks */
 	ticksRemainingInSec = portTickRateHz;
-
-    /* Adjust for correct value. */
-	ulCompareMatch -= ( uint32_t ) 1;
 
     /* Setup compare match value for compare match A.  Interrupts are disabled
     before this is called so we need not worry here. */
@@ -660,34 +660,27 @@ uint8_t ucLowByte;
     // the HiByte is only needed, if a 16 Bit counter is being utilized
 #ifdef portOCRH
     ulCompareMatch >>= 8;
-    ucHighByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t) 0xff );
+    ucHighByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t) 0xFF );
     portOCRH = ucHighByte;
 #endif
 
     portOCRL = ucLowByte;
 
+	/* Setup interrupt registers */
+	portTCCRa = 0x00;
+	portTCCRb = 0x00;
 #if defined( portUSE_TIMER0 )
    /* Setup clock source and compare match behaviour. Assuming 328p (no Timer3) */
-   portTCCRa = portCLEAR_COUNTER_ON_MATCH;
-   portTCCRb = portPRESCALE_1024;
-
-#elif defined( portUSE_TIMER1 )
+   portTCCRa |= portCLEAR_COUNTER_ON_MATCH;
+   portTCCRb |= portPRESCALE_BITS;
+#elif defined( portUSE_TIMER1 ) || defined( portUSE_TIMER3 )
 	/* Setup clock source and compare match behaviour. Assuming 328p (with Timer1) */
-	ucLowByte = portCLEAR_COUNTER_ON_MATCH | portPRESCALE_64;
-	portTCCRb = ucLowByte;
-
-#elif defined( portUSE_TIMER3 )
-	/* Setup clock source and compare match behaviour. Assuming  640 / 1280 /1281 / 1284p / 2560 / 2561 (with Timer3) */
-	ucLowByte = portCLEAR_COUNTER_ON_MATCH | portPRESCALE_64;
-	portTCCRb = ucLowByte;
+	portTCCRb |= portCLEAR_COUNTER_ON_MATCH | portPRESCALE_BITS;
 #endif
 
     /* Enable the interrupt - this is okay as interrupt are currently globally
 	disabled. */
-    ucLowByte = portTIMSK;
-    ucLowByte |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
-    portTIMSK = ucLowByte;
-
+    portTIMSK |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
 }
 
 #else
@@ -755,6 +748,10 @@ static void prvSetupTimerInterrupt( void )
 #endif
 
 /*-----------------------------------------------------------*/
+
+#if !defined( portSCHEDULER_ISR )
+	#error "No Interrupt source has been provided"
+#endif
 
 #if configUSE_PREEMPTION == 1
 

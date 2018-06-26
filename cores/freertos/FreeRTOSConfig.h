@@ -138,6 +138,6 @@ to exclude the API function. */
 #define INCLUDE_xTaskGetCurrentTaskHandle       0
 #define INCLUDE_uxTaskGetStackHighWaterMark     1
 
-#define configTICK_RATE_HZ                      66
+#define configTICK_RATE_HZ                      67
 
 #endif /* FREERTOS_CONFIG_H */
