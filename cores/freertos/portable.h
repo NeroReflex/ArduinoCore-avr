@@ -76,7 +76,7 @@
 
 #if !defined( portUSE_TIMER0 ) && !defined( portUSE_TIMER1 ) && !defined( portUSE_TIMER2 ) && !defined( portUSE_TIMER3 ) && !defined( portUSE_WDT )
 	#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined (__AVR_ATmega328__)
-		#define portUSE_TIMER0 1
+		#define portUSE_TIMER3 1
 	#else
 		#define portUSE_WDT 1
 	#endif
